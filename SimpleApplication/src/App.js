@@ -36,7 +36,7 @@ class App extends Component {
             <div class="topnav">
             <a href="#" id="home"><img src={require('./images/hms-ongrey-w.png')} width="250x" height="75px"/></a>    
             <ul>   
-            <Link to="/help" onClick={this.Listen}>listen</Link>
+            <Link to="/" onClick={this.Listen}>Listen</Link>
             <Link to="/help" onClick={this.help}>Help</Link>
             <Link to="/about" onClick={this.hello}>About</Link>
             </ul>
