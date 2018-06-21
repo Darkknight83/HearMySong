@@ -1,0 +1,94 @@
+body {   
+    background-color: #00B8FF;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: white;
+}
+
+/* The navbar container */
+
+.topnav {
+    font-family: 'Oswald';
+    overflow: hidden;
+    position: fixed;
+    background-color: rgba(62, 62, 62, 0.6);
+    font-size: 150%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style: none;
+    text-align: right;
+    padding-left: 15%;
+}
+
+.topnav ul {
+    display: inline-block;
+    padding: 0; 
+    padding-right: 30%;
+}
+
+.topnav li {
+    display: inline-block;
+}
+
+.topnav img {
+    float: left;
+    margin-top:5px; 
+}
+
+.topnav a {
+    padding: 20px;
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
+.topnav a:hover {
+    color: #3d3d3d;
+}
+
+.header:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.row {
+    margin-top:70px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+/* Create three equal columns that floats next to each other */
+.column-s {
+    float: left;
+    width: 20%;
+
+}
+
+.column-c {
+    float: left;
+    width: 80%;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.content {
+    padding: 15px;
+}
+
+.sidebar {
+    padding: 15px;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width:600px) {
+    .column {
+        width: 100%;
+    }
+}
