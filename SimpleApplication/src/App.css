@@ -1,39 +1,33 @@
-body {   
+body {
     background-color: #00B8FF;
     margin: 0 !important;
     padding: 0 !important;
     color: white;
 }
 
-/* The navbar container */
+
 
 .topnav {
-    font-family: 'Oswald';
     overflow: hidden;
+    font-family: 'Oswald';
     position: fixed;
-    background-color: rgba(62, 62, 62, 0.6);
     font-size: 150%;
-    margin: 0;
-    padding: 0;
     width: 100%;
     list-style: none;
     text-align: right;
-    padding-left: 15%;
 }
 
-.topnav ul {
+.logo {
+    float: left;
+}
+
+.menu {
     display: inline-block;
-    padding: 0; 
-    padding-right: 30%;
+    margin-top: 22px;
 }
 
 .topnav li {
     display: inline-block;
-}
-
-.topnav img {
-    float: left;
-    margin-top:5px; 
 }
 
 .topnav a {
@@ -46,49 +40,128 @@ body {
     color: #3d3d3d;
 }
 
-.header:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.row {
-    margin-top:70px;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-/* Create three equal columns that floats next to each other */
-.column-s {
-    float: left;
-    width: 20%;
-
-}
-
-.column-c {
-    float: left;
-    width: 80%;
-
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+#icon {
+    display: none;
 }
 
 .content {
-    padding: 15px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 100px;
 }
 
-.sidebar {
-    padding: 15px;
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+    .topnav {
+        background-color: rgba(62, 62, 62, 1);
+        font-size: 125%;
+    }
+    .logo {
+        margin-left: 5%;
+        padding-top: 5px;
+        width: 166.6px;
+        height: 50px;
+    }
+    .topnav img {
+        width: 166.6px;
+        height: 50px;
+        float: left;
+    }
+    .menu {
+        display: none;
+    }
+    .dropdown {
+        display: inline-block;
+        margin-top: 0%;
+    }
+    #icon {
+        cursor: pointer;
+        margin-bottom: 5px;
+        padding: 10px;
+        padding-right: 20px;
+        display: inline-block;
+        font-size: 120%;
+    }
+    #icon:hover {
+        color: #f2f2f2;
+    }
+    .dropmenu {
+        display: block;       
+    }
+
+    .dropmenu a{
+        display: block;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .dropmenu a:hover{
+        color: #f2f2f2;
+    }
 }
 
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width:600px) {
-    .column {
-        width: 100%;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (min-width: 600px) {
+    .topnav {
+        background-color: rgba(62, 62, 62, 1);
+        font-size: 125%;
+    }
+    .menu {
+        display: inline-block;
+        margin-right: 5%;
+    }
+    .logo {
+        margin-left: 5%;
+        padding-top: 5px;
+    }
+    .topnav img {
+        width: 208.3px;
+        height: 62.5px;
+    }
+    .topnav a:hover {
+        color: #00B8FF;
+    }
+    #icon {
+        display: none;
+    }
+    .dropdown {
+        display: none;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+@media only screen and (min-width: 992px) {
+    .topnav {
+        font-size: 150%;
+        background-color: rgba(62, 62, 62, 0.6);
+    }
+    .topnav li {
+        display: inline-block;
+    }
+    .logo {
+        margin-left: 15%;
+    }
+    .topnav img {
+        width: 250px;
+        height: 75px;
+    }
+    .menu {
+        display: inline-block;
+        margin-right: 15%;
+    }
+    .topnav a {
+        padding: 20px;
+        text-decoration: none;
+        color: #f2f2f2;
+    }
+    .topnav a:hover {
+        color: #3d3d3d;
+    }
+    .dropdown {
+        display: none;
     }
 }
