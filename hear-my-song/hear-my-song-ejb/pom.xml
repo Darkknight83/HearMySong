@@ -16,15 +16,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
-				<version>3.0.1</version>
 				<configuration>
-					<ejbVersion>3.1</ejbVersion>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-					</archive>
+					<ejbVersion>3.2</ejbVersion>
+					<!-- <archive> <manifest> <addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
+						<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> </manifest> 
+						</archive> -->
 				</configuration>
 			</plugin>
 		</plugins>

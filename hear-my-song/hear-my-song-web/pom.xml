@@ -27,34 +27,28 @@
 			<artifactId>javaee-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- JSP dependencies. Can be removed if using another rendering technology -->
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.2.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.2</version>
+				<!-- <version>3.2.2</version> <configuration> <archive> <manifest> <addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
+					<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> </manifest> 
+					</archive> <failOnMissingWebXml>false</failOnMissingWebXml> </configuration> -->
 				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-					</archive>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
+			<!-- wildfly-maven-plugin -->
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.2.1.Final</version>
+				<configuration>
+					<server-args>
+						<server-arg>-Djboss.http.port=9090</server-arg>
+					</server-args>
 				</configuration>
 			</plugin>
 		</plugins>
