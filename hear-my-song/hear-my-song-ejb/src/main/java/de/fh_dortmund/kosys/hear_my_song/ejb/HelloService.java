@@ -14,4 +14,6 @@ public interface HelloService {
 	 */
 	String greet(String name);
 
+	boolean addUser(String name, String lastName);
+
 }
