@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name="theme-color" content="#000000"><link rel="manifest" href="/manifest.json"><link rel="shortcut icon" href="/favicon.ico"><title>First Project</title><link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link href="/static/css/main.fa50301e.css" rel="stylesheet"></head><body><script id="user-profile-template" type="text/x-handlebars-template"><h1>Logged in as {{display_name}}</h1>
+      <div class="media">
+        <div class="pull-left">
+          <img class="media-object" width="150" src="{{images.0.url}}" />
+        </div>
+        <div class="media-body">
+          <dl class="dl-horizontal">
+            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+            <dt>Id</dt><dd>{{id}}</dd>
+            <dt>Email</dt><dd>{{email}}</dd>
+            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
+            <dt>Country</dt><dd>{{country}}</dd>
+          </dl>
+        </div>
+      </div></script><script id="oauth-template" type="text/x-handlebars-template"><h2>oAuth info</h2>
+      <dl class="dl-horizontal">
+        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+      </dl></script><script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script><script src="http://code.jquery.com/jquery-1.10.1.min.js"></script><script>!function(){var e=document.getElementById("user-profile-template").innerHTML,n=Handlebars.compile(e),t=document.getElementById("user-profile"),o=document.getElementById("oauth-template").innerHTML,r=Handlebars.compile(o),a=document.getElementById("oauth"),i=function(){for(var e,n={},t=/([^&;=]+)=?([^&;]*)/g,o=window.location.hash.substring(1);e=t.exec(o);)n[e[1]]=decodeURIComponent(e[2]);return n}(),s=i.access_token,c=i.refresh_token;i.error?alert("There was an error during the authentication"):(s?(a.innerHTML=r({access_token:s,refresh_token:c}),$.ajax({url:"https://api.spotify.com/v1/me",headers:{Authorization:"Bearer "+s},success:function(e){t.innerHTML=n(e),$("#login").hide(),$("#loggedin").show()}})):($("#login").show(),$("#loggedin").hide()),document.getElementById("obtain-new-token").addEventListener("click",function(){$.ajax({url:"/refresh_token",data:{refresh_token:c}}).done(function(e){s=e.access_token,a.innerHTML=r({access_token:s,refresh_token:c})})},!1))}()</script><div id="root"></div><script type="text/javascript" src="/static/js/main.043e484d.js"></script></body></html>
