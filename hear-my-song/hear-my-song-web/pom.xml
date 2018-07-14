@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>hear-my-song</artifactId>
+		<groupId>de.fh-dortmund.kosys</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>hear-my-song-web</artifactId>
+	<packaging>war</packaging>
+	<name>hear-my-song Web module</name>
+	<dependencies>
+		<dependency>
+			<groupId>de.fh-dortmund.kosys</groupId>
+			<artifactId>hear-my-song-ejb</artifactId>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.fh-dortmund.kosys</groupId>
+			<artifactId>hear-my-song-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- REST Dependencies -->
+		<!-- <dependency> <groupId>javax.ws.rs</groupId> <artifactId>javax.ws.rs-api</artifactId> 
+			<version>2.1</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>org.glassfish.jersey.containers</groupId>
+		<artifactId>jersey-container-servlet</artifactId>
+		<version>2.27</version>
+	</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.27</version>
+		</dependency>
+		-->
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<!-- <version>3.2.2</version> <configuration> <archive> <manifest> <addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
+					<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> </manifest> 
+					</archive> <failOnMissingWebXml>false</failOnMissingWebXml> </configuration> -->
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+				</configuration>
+			</plugin>
+			<!-- wildfly-maven-plugin -->
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.2.1.Final</version>
+				<configuration>
+					<server-args>
+						<server-arg>-Djboss.http.port=9090</server-arg>
+					</server-args>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
