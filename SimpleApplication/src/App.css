@@ -8,10 +8,10 @@ body {
 .topnav {
     overflow: hidden;
     font-family: 'Oswald';
-    position: fixed;
     width: 100%;
     list-style: none;
     text-align: right;
+    background-color: rgba(62, 62, 62, 1);
 }
 
 .logo {
@@ -43,10 +43,9 @@ body {
 
 @media only screen and (max-width: 600px) {
     .topnav {
-        background-color: rgba(62, 62, 62, 1);
         font-size: 125%;
     }
-    .logo { 
+    .logo {
         float:left;
     }
     .topnav img {
@@ -89,7 +88,6 @@ body {
 
 @media only screen and (min-width: 600px) {
     .topnav {
-        background-color: rgba(62, 62, 62, 1);
         font-size: 125%;
     }
     .menu {
@@ -119,7 +117,6 @@ body {
 @media only screen and (min-width: 992px) {
     .topnav {
         font-size: 150%;
-        background-color: rgba(62, 62, 62, 0.8);
     }
     .logo {
         margin-left: 15%;
@@ -133,7 +130,7 @@ body {
         margin-right: 15%;
     }
     .topnav a:hover {
-        color: #3d3d3d;
+        color: #00B8FF;
     }
     .dropdown {
         display: none;
