@@ -1,8 +1,8 @@
 import React, { Component} from 'react';
 import { Route, Link, Switch } from 'react-router-dom'
-import About from './Components/About.js';
-import Help from './Components/Help.js';
-import Listen from './Components/Listen.js';
+import About from './Components/About/About.js';
+import Help from './Components/Help/Help.js';
+import Listen from './Components/Listen/Listen.js';
 import './App.css';
 
 class App extends Component {
