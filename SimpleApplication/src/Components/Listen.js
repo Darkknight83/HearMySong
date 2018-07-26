@@ -17,12 +17,11 @@ export default class Listen extends Component {
   this.state = {
     loggedIn: token ? true : false,
     nowPlaying: { name: 'Name', artists: "Artists", albumArt: '' },
-    isplaying: false
+    isplaying: false,
+    value: 50
   }
+  spotifyApi.setVolume(50, {});
 }
-
-
-
     getHashParams(){
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -35,7 +34,17 @@ export default class Listen extends Component {
     return hashParams;
   }
 
+  sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
   getPlaybackState(){
+    this.sleep(70);
   spotifyApi.getMyCurrentPlaybackState()
     .then((response) => {
       this.setState({
@@ -44,43 +53,38 @@ export default class Listen extends Component {
             artists: response.item.artists,
             albumArt: response.item.album.images[0].url
           },
-        device_id: response.device.id,
         volume: response.device.volume_percent,
-        isplaying: response.is_playing
+        isplaying: response.is_playing,
       });
     })
   }
 
   pauseSong(){
+    spotifyApi.pause({});
     this.getPlaybackState();
-    var obj = {"device_id":this.state.device_id};
-    spotifyApi.pause(obj);
   }
 
   playSong(){
+    spotifyApi.play({});
     this.getPlaybackState();
-    this.setState({
-      value: this.state.volume
-    })
-    var obj = {"device_id":this.state.device_id};
-    spotifyApi.play(obj);
   }
 
   handleChange = value => {
     this.setState({
-      value: value,
-      volume: value
+      value: value
     })
-    var obj = {"device_id":this.state.device_id};
-    spotifyApi.setVolume(this.state.value, obj);
+    spotifyApi.setVolume(value, {});
   };
 
   render() {
-    const { value } = this.state
+
     this.getPlaybackState();
+
+    const { value } = this.state
+
     const { artists } = this.state.nowPlaying
-    var text = ""
-    var i
+    let text = ""
+    let i
     for(i = 0; i<artists.length-1; i++){
       text += artists[i].name + ", "
     }
