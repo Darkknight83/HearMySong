@@ -10,6 +10,7 @@ public class RoomEndpoint {
 
 	/**
 	 * Hinzufügen eines Songs zur Playlist innerhalb eines Raums
+	 * 
 	 * @param roomId
 	 * @param songId
 	 * @return
@@ -24,7 +25,7 @@ public class RoomEndpoint {
 	public Response getSongs() {
 		return null;
 	}
-	
+
 	/**
 	 * Liefer alle Räume
 	 * 
@@ -35,6 +36,7 @@ public class RoomEndpoint {
 
 	/**
 	 * Liefert Infos zu einem Raum
+	 * 
 	 * @return
 	 */
 	public Response getRoom() {
@@ -42,18 +44,37 @@ public class RoomEndpoint {
 	}
 
 	/**
-	 * Fügt nutzer einem Raum hinzu und überträgt die dortige Playlist in das Spotify des Nutzers
+	 * Fügt nutzer einem Raum hinzu und überträgt die dortige Playlist in das
+	 * Spotify des Nutzers. Deaktiviert shuffle und crossfade des nutzers
+	 * 
 	 * @return
 	 */
 	public Response enterRoom() {
 		return null;
 	}
-	
+
 	/**
 	 * Verlässt einen Raum, sodass keine Songs mehr zur Playlist hinzugefügt werden
+	 * 
 	 * @return
 	 */
 	public Response leaveRoom() {
+		return null;
+	}
+
+	/**
+	 * Erstellt einen neuen Raum
+	 * @return
+	 */
+	public Response createRoom() {
+		return null;
+	}
+
+	/**
+	 * Synchronisiert die Playbackzeit mit der auf dem Server
+	 * @return
+	 */
+	public Response syncPlayback() {
 		return null;
 	}
 

@@ -18,5 +18,6 @@ public class Song {
 	@ManyToOne
 	private Service service;
 	private String urlExtention;
+	private long playbackTime;
 
 }

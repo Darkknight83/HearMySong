@@ -3,6 +3,7 @@ package de.fh_dortmund.kosys.hear_my_song.ejb.models;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,12 +28,15 @@ public class User {
 	private long id;
 	private String name;
 
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy = "user")
 	private List<Credentials> credentials;
-	
+
 	@ManyToOne
-	@JoinColumn(name="roomId")
+	@JoinColumn(name = "roomId")
 	private Room room;
+
+	@Embedded
+	private UserSettings setting;
 
 	public User(String name, Credentials credentials) {
 		this.name = name;
