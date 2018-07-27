@@ -18,20 +18,10 @@ export default class Listen extends Component {
             <div className="listen">
                 <Grid fluid>
                     <Row>
-                        <Col xs={
-                            12
-                        }
-                             md={
-                                 5
-                             }>
-                            <SongSearch / >
+                        <Col xs={12} md={5}>
+                            <SongSearch/>
                         </Col>
-                        <Col xs={
-                            12
-                        }
-                             md={
-                                 7
-                             }>
+                        <Col xs={12} md={7}>
                             <Room/>
                         </Col>
                     </Row>

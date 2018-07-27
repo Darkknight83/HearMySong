@@ -20,6 +20,7 @@
     "react-beautiful-dnd": "^8.0.5",
     "react-dom": "^16.2.0",
     "react-flexbox-grid": "^2.1.2",
+    "react-modal": "^3.5.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.1",
     "react-search-bar": "^2.2.0"

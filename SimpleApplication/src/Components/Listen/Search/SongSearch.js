@@ -133,7 +133,7 @@ export default class SongSearch extends Component {
                                 </span>
                                 <span className="song-length" id="raw"> { item.song.length.toFixed(2) }m
                                 </span>
-                                <span contentEditable='true' onClick={this.addItemToRoom(item)}
+                                <span onClick={this.addItemToRoom(item)}
                                  className="add-button" id="raw"><i className="fa fa-plus"></i></span>
                             </div>
                         </div>
