@@ -11,6 +11,9 @@ import javax.ws.rs.core.Response;
 @Path("/user")
 public class UserEndpoint {
 
+	/**
+	 * Initiales Anlegen eines Nutzers auf dem Server
+	 */
 	@PUT
 	@Path("/register")
 	public Response register(@FormParam("name") String name, @FormParam("service") String service,
@@ -19,6 +22,12 @@ public class UserEndpoint {
 
 	}
 
+	/**
+	 * Aktualisiert den accessToken eines Nutzers
+	 * 
+	 * @param accessToken
+	 * @return
+	 */
 	@GET
 	@Path("/refresh")
 	public Response refreshToken(@FormParam("accessToken") String accessToken) {
