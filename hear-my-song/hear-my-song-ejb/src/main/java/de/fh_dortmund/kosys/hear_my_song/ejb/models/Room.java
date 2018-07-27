@@ -23,6 +23,11 @@ public class Room {
 	@OneToOne
 	private Playlist playlist;
 	
+	public long getId()
+	{
+		return this.id;
+	}
+	
 	public Room()
 	{
 		this.playlist = new Playlist();
