@@ -24,4 +24,18 @@ public class Playlist {
 	@JoinColumn(name="playlistId")
 	private List<Song> songs;
 
+	public void addSong(Song song)
+	{
+		songs.add(song);
+	}
+	
+	public void removeSong(Song song)
+	{
+		songs.remove(song);
+	}
+	
+	public List<Song> getSongs()
+	{
+		return this.songs;
+	}
 }
