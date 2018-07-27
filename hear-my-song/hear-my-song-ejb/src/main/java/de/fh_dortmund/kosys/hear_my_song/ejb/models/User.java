@@ -1,15 +1,20 @@
 package de.fh_dortmund.kosys.hear_my_song.ejb.models;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({
-		@NamedQuery(name = User.FIND_BY_NAME_LASTNAME, query = "SELECT u FROM User u WHERE u.nachname = :nachname") })
+@NamedQueries({ @NamedQuery(name = User.FIND_BY_NAME_LASTNAME, query = "SELECT u FROM User u") })
 public class User {
 
 	public static final String FIND_BY_NAME_LASTNAME = "UserFindByNameLastname";
@@ -18,16 +23,23 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "userId")
 	private long id;
 	private String name;
-	private String nachname;
 
-	public User() {
+	@OneToMany(mappedBy="user")
+	private List<Credentials> credentials;
+	
+	@ManyToOne
+	@JoinColumn(name="roomId")
+	private Room room;
+
+	public User(String name, Credentials credentials) {
+		this.name = name;
+		this.credentials.add(credentials);
 	}
 
-	public User(String name, String nachname) {
-		this.name = name;
-		this.nachname = nachname;
+	public User() {
 	}
 
 	public String getName() {
@@ -38,11 +50,8 @@ public class User {
 		this.name = name;
 	}
 
-	public String getNachname() {
-		return nachname;
-	}
+	public void addCredentials(Credentials credentials) {
+		this.credentials.add(credentials);
 
-	public void setNachname(String nachname) {
-		this.nachname = nachname;
 	}
 }
