@@ -1,11 +1,11 @@
 package de.fh_dortmund.kosys.hear_my_song.ejb;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.Credentials;
-import de.fh_dortmund.kosys.hear_my_song.ejb.models.Service;
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.User;
 
 /**
@@ -13,6 +13,9 @@ import de.fh_dortmund.kosys.hear_my_song.ejb.models.User;
  */
 @Stateless
 public class UserManagemendBean implements UserManagemendLocal {
+
+	@EJB
+	ServiceManagementLocal serviceManagement;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -25,10 +28,10 @@ public class UserManagemendBean implements UserManagemendLocal {
 	}
 
 	@Override
-	public String register(String name, String service, String accessToken) {
+	public String register(String name, long service, String accessToken, String refreshToken) {
 		User user = new User();
 		user.setName(name);
-		user.addCredentials(new Credentials(user, new Service("Spotify", "http://Spotify"), accessToken, null, name));
+		user.addCredentials(new Credentials(user, serviceManagement.getService(service), accessToken, refreshToken, name));
 		em.persist(user);
 		return "asdsdf:wdfsdf";
 	}

@@ -32,13 +32,14 @@ public class Service {
 		this.id = id;
 	}
 
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 
 	protected void setName(String name) {
 		this.name = name;
 	}
+	
 
 	protected String getUrl() {
 		return url;

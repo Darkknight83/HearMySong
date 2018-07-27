@@ -20,7 +20,7 @@ public abstract class AbstractService {
 	}
 
 	public abstract String login();
-	
+
 	public abstract void logoff();
 
 	public void addSongToPlaylist(String songId, int position) {

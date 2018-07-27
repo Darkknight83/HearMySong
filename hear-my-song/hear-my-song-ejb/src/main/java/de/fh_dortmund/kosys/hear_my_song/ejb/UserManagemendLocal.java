@@ -5,5 +5,5 @@ import javax.ejb.Local;
 @Local
 public interface UserManagemendLocal {
 
-	public String register(String name, String service, String accessToken);
+	public String register(String name, long service, String accessToken, String refreshToken);
 }

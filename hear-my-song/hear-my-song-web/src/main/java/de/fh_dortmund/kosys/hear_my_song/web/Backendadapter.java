@@ -23,8 +23,8 @@ public class Backendadapter {
 
 	}
 	
-	public String register(String name, String service, String accessToken) {
-		return this.userManagement.register(name, service, accessToken);
+	public String register(String name, long service, String accessToken, String refreshToken) {
+		return this.userManagement.register(name, service, accessToken, refreshToken);
 	}
 
 

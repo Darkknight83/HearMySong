@@ -11,6 +11,7 @@ public class SpotifyService extends AbstractService {
 
 	private SpotifyApi spotifyApi;
 
+
 	@Override
 	public String login() {
 		spotifyApi = new SpotifyApi.Builder().setAccessToken(this.getModel().getAccessToken()).build();
