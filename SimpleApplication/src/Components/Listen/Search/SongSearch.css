@@ -1,0 +1,22 @@
+#flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#flex-container > .song-info {
+  flex: auto;
+}
+
+#flex-container > .add-button {
+  width: 3rem;
+}
+#flex-container {
+  width: 100%;
+  font-family: Consolas, Arial, sans-serif;
+}
+
+#flex-container > span {
+  padding: 1rem;
+}
+
