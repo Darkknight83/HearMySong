@@ -134,7 +134,7 @@ export default class SongSearch extends Component {
                                 <span className="song-length" id="raw"> { item.song.length.toFixed(2) }m
                                 </span>
                                 <span onClick={this.addItemToRoom(item)}
-                                 className="add-button" id="raw"><i className="fa fa-plus"></i></span>
+                                 className="add-button" id="raw"><button className="btn btn-mini"><i className="fa fa-plus"></i></button></span>
                             </div>
                         </div>
                     )}

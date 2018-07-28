@@ -6,11 +6,12 @@ import './Room.css'
 import  ReactModal  from 'react-modal';
 
 class RoomEntity {
-    constructor(name, password, owner, songs) {
+    constructor(name, genre, owner, password , tags) {
         this.name = name;
         this.password = password;
         this.owner = owner;
-        this.songs = songs;
+        this.genre = genre;
+        this.tags = tags;
     }
 }
 
@@ -73,7 +74,36 @@ export default class Room extends Component {
 
 
     createRoom() {
-        this.setState({room: new Room()})
+        const form = this.contentRef.childNodes[1];
+        const roomName =    form.
+                            childNodes[0].      // fieldset
+                            childNodes[0].      // first input (name)
+                            value.
+                            toString();
+
+        const genre =    form.
+                            childNodes[0].      // fieldset
+                            childNodes[3].      // first input (name)
+                            value.
+                            toString();
+
+        const password =  form.
+                            childNodes[2].      // fieldset
+                            childNodes[2].      // first input (name)
+                            value.
+                            toString();
+
+        const tags =    form.
+                            childNodes[2].      // fieldset
+                            childNodes[4].      // first input (name)
+                            value.
+                            split(',').
+                            map(tag => tag.trim());
+
+        this.setState({room: new RoomEntity(roomName, genre, 'ownerPlaceholder', password, tags)});
+        this.setState({creationDialogOpen: false});
+        console.log('----------------------------');
+        console.log(tags)
     }
 
     leaveRoom() {
@@ -91,12 +121,16 @@ export default class Room extends Component {
     }
 
     render() {
+
+        var genreList = ['Rock','Pop','House','Metal','Funk','Soul','RNB','Black','Classic']
+
         const divClassName = 'room';
         if (this.state.room == null) {
             return (
                 <div className={divClassName}>
-                    <button className="btn btn-info" onClick={this.openCreationDialog} type="button" name="Create"
-                            style={{color: 'black'}}>Create New Room
+                    <button className="btn btn-info" onClick={this.openCreationDialog}
+                            type="button" name="Create"
+                            style={{color: 'black', backgroundColor: 'silver'}}>Create New Room
                     </button>
                     <ReactModal
                         isOpen={this.state.creationDialogOpen}
@@ -111,6 +145,16 @@ export default class Room extends Component {
                                 <input type="text" name="roomname"
                                        placeholder="roomname" required={true}
                                        autoFocus={true}/><br/>
+                                <span> Genre: </span>
+                                <select id = "genres">
+                                    { genreList.map(genre => <option key={genre} value={genre}>{genre}</option>)}
+                                </select>
+                            </fieldset>
+                            <hr/>
+                            <fieldset>
+                                <label>
+                                    <input id="checkbox-a" name="checkbox-a" type="checkbox" defaultChecked={true}/> Publicly visible
+                                </label><br/>
                                 <input type="text" name="password"
                                        placeholder="password" /><br/>
                                 <input type="text" name="tags"
@@ -118,14 +162,8 @@ export default class Room extends Component {
                             </fieldset>
                             <hr/>
                             <fieldset>
-                                <label>
-                                    <input id="checkbox-a" name="checkbox-a" type="checkbox" defaultChecked={true}/> Publicly visible
-                                </label><br/>
-                            </fieldset>
-                            <hr/>
-                            <fieldset>
-                            <button className="btn btn-primary" onClick={() => this.closeCreationDialog}>Create</button>
-                            <button className="btn btn-danger" onClick={() => this.closeCreationDialog}>Close</button>
+                                <button className="btn btn-success" onClick={() => this.createRoom()}>Create</button>
+                                <button className="btn btn-danger" onClick={() => this.closeCreationDialog}>Close</button>
                             </fieldset>
                         </form>
                     </ReactModal>
