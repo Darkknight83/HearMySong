@@ -2,7 +2,6 @@ package de.fh_dortmund.kosys.hear_my_song.ejb;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -13,10 +12,9 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import de.fh_dortmund.kosys.hear_my_song.ejb.models.Room;
+import org.slf4j.Logger;
+
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.Song;
 
 /**
@@ -34,10 +32,8 @@ public class TimerServiceBean {
 
 	Map<Timer, Song> timerMap;
 	
-	@PersistenceContext
-	private EntityManager em;
 	
-	@Inject
+	@Inject	
 	private transient Logger logger;
 
 	/**
