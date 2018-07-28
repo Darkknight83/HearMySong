@@ -1,8 +1,9 @@
 import React, { Component} from 'react';
 import { Route, Link, Switch } from 'react-router-dom'
-import About from './Components/About.js';
-import Help from './Components/Help.js';
-import Listen from './Components/Listen.js';
+import About from './Components/About/About.js';
+import Help from './Components/Help/Help.js';
+import Listen from './Components/Listen/Listen.js';
+import {DragDropContext} from 'react-beautiful-dnd';
 import './App.css';
 
 class App extends Component {
@@ -17,6 +18,18 @@ class App extends Component {
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
   }
+
+  //vgl. react-beatiful-dnd Basic usage
+  onDragStart = () => {
+    /*...*/
+  };
+  onDragUpdate = () => {
+    /*...*/
+  };
+  onDragEnd = () => {
+    // the only one that is required
+  };
+
 
 /*Trigger to open and close Dropdownmenu*/
 
@@ -40,7 +53,12 @@ class App extends Component {
   
  render() {
         return (
-            <div className="App">          
+        <DragDropContext
+        onDragStart={this.onDragStart}
+        onDragUpdate={this.onDragUpdate}
+        onDragEnd={this.onDragEnd}
+         >
+            <div className="App">
             <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -92,7 +110,8 @@ class App extends Component {
               <Route path="/about" component={About}/>
           </Switch>
   </div>
-</div>                                                        
+</div>
+</DragDropContext>
         );
     }
 }
