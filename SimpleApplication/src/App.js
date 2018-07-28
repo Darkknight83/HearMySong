@@ -37,10 +37,10 @@ class App extends Component {
       document.removeEventListener('click', this.closeMenu);
     });
   }
-  
+
  render() {
         return (
-            <div className="App">          
+            <div className="App">
             <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -56,11 +56,11 @@ class App extends Component {
 
 {/*Adding the regular menu*/}
 
-            <div className="menu">   
+            <div className="menu">
                 <Link to="/">Listen</Link>
                 <Link to="/help">Help</Link>
                 <Link to="/about">About</Link>
-            </div>       
+            </div>
 
 {/*Adding the Dropdownmenu for small devices*/}
 
@@ -69,16 +69,16 @@ class App extends Component {
             {
           this.state.showMenu
             ? (
-            <div className="dropmenu">   
+            <div className="dropmenu">
             <Link to="/" >Listen</Link>
             <Link to="/help">Help</Link>
             <Link to="/about">About</Link>
-            </div>   
+            </div>
             )
             : (
               null
             )
-        }       
+        }
             </div>
 
             </div>
@@ -92,7 +92,7 @@ class App extends Component {
               <Route path="/about" component={About}/>
           </Switch>
   </div>
-</div>                                                        
+</div>
         );
     }
 }

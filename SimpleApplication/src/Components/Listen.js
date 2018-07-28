@@ -3,6 +3,11 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import './Listen.css';
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
+import 'simplebar'; // or "import SimpleBar from 'simplebar';" if you want to use it manually.
+import 'simplebar/dist/simplebar.css';
+import { Grid, Row, Col } from 'react-flexboxgrid';
+import Room from './Room/Room.js';
+import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 const spotifyApi = new SpotifyWebApi();
 
 
@@ -14,14 +19,41 @@ export default class Listen extends Component {
   if (token) {
     spotifyApi.setAccessToken(token);
   }
+
+  this.handleChangeRoom = this.handleChangeRoom.bind(this);
+  this.handleSubmitRoom = this.handleSubmitRoom.bind(this);
+
+  let roomarray = [];
+  roomarray[0] = "HMS - Mostplayed";
+  roomarray[1] = "HMS - Rock";
+  roomarray[2] = "HMS - Pop";
+  roomarray[3] = "HMS - House";
+  roomarray[4] = "HMS - Metal";
+  roomarray[5] = "HMS - Funk";
+  roomarray[6] = "HMS - Soul";
+  roomarray[7] = "HMS - RNB";
+  roomarray[8] = "HMS - Black";
+  roomarray[9] = "HMS - Classic";
+
   this.state = {
+    color: 'white',
     loggedIn: token ? true : false,
     nowPlaying: { name: 'Name', artists: "Artists", albumArt: '' },
     isplaying: false,
-    value: 50
+    value: 50,
+    rooms: null,
+    currentRoom: null,
+    valueRoom: '',
+    rooms: roomarray,
+    roomlist: 'Show Rooms'
   }
   spotifyApi.setVolume(50, {});
 }
+
+  setRoom = (currentRoom) => {
+    this.setState({ currentRoom: currentRoom })
+  }
+
     getHashParams(){
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -76,10 +108,38 @@ export default class Listen extends Component {
     spotifyApi.setVolume(value, {});
   };
 
+  handleChangeRoom(event) {
+  this.setState({valueRoom: event.target.value});
+}
+
+  handleSubmitRoom(event) {
+    this.setState({currentRoom: this.state.valueRoom});
+    this.addRoom();
+    event.preventDefault();
+  }
+
+  addRoom(newRoom){
+    var roomarray = this.state.rooms;
+    roomarray.push(this.state.valueRoom)
+    this.setState({
+      rooms: roomarray});
+  }
+
+  toggleRoomlist() {
+    let div = document.getElementById('leftbar');
+    div.style.display = div.style.display == "block" ? (div.style.display ="none", this.setState({
+      roomlist: 'Show Rooms'}))  : (div.style.display = "block", this.setState({
+        roomlist: 'Hide Rooms'}));
+    let diva = document.getElementById('center');
+    diva.style.display = div.style.display == "block" ? "none" : "block";
+    let divb = document.getElementById('rightbar');
+    divb.style.display = div.style.display == "block" ? "none" : "block";
+
+}
+
   render() {
 
-    this.getPlaybackState();
-
+    this.getPlaybackState()
     const { value } = this.state
 
     const { artists } = this.state.nowPlaying
@@ -90,23 +150,51 @@ export default class Listen extends Component {
     }
     text += artists[i].name
 
-
-
+    let listOfRooms = [];
+    if(this.state.rooms != null){
+    let c;
+    for(c = 0; c < this.state.rooms.length; c++){
+      let rname = this.state.rooms[c]
+      listOfRooms[c] = <div className="roombuttons" onClick={() => this.setRoom(rname)}><div className="roombuttoninfo">{rname} <img src={require('./icons/key.png')} height="15" width="15" /> 56 <img src={require('./icons/listeners.png')} height="18" width="18" /><br/>
+      <div className="tags"> Tags: <u>Cool</u>, <u>Brandnew</u>, <u>Insider</u>, <u>GoodVibes</u></div></div></div>
+    }
+  }
 
     return (
 
 <div id="container">
-      {this.state.loggedIn &&
+  {this.state.loggedIn &&
   <div id="loged" className="loged-display">
-  <div id="content">
-        Hier anderer Content
+  <div id="content" class="row">
+  <div id="showrooms" class="col-xs-12 col-sm-12">
+  <button onClick={() => this.toggleRoomlist()}>{this.state.roomlist}</button>
   </div>
+    <div id="leftbar" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <div data-simplebar id="roomlist">
+  {listOfRooms}
+      </div>
+    </div>
+    <div id="center" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+  <Room/>
+    </div>
+    <div id="rightbar" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    SEARCHING
+    </div>
+  </div>
+  {this.state.currentRoom == null &&
+  <div id="footer" className="footer">
+</div>
+}
+
+  {this.state.currentRoom != null &&
   <div id="player" className="player">
         <div id="album-img">
           <img src={this.state.nowPlaying.albumArt} style={{ height: 55 }}/>
         </div>
           <div id="song-name">
-          { this.state.nowPlaying.name }
+          <div id="onlyname">
+          <p>{ this.state.nowPlaying.name }</p>
+          </div>
           <div id="song-artist">
           { text }
           </div>
@@ -131,12 +219,14 @@ export default class Listen extends Component {
              onChange={this.handleChange}
            />
            </div>
-           </div>
           </div>
          </div>
          </div>
-        </div>
+         </div>
       }
+      </div>
+    }
+
       {!this.state.loggedIn &&
         <div id="unloged" className="unloged-display">
         <div>
@@ -148,6 +238,7 @@ export default class Listen extends Component {
         </div>
         </div>
       }
+
   </div>
     );
   }
