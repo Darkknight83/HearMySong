@@ -12,17 +12,28 @@
   "author": "CodeMix",
   "license": "ISC",
   "dependencies": {
+    "ajv": "^6.5.2",
+    "create-react-class": "^15.6.3",
     "jquery": "^3.3.1",
     "prop-types": "^15.6.2",
     "querystring": "~0.2.0",
-    "react": "^16.2.0",
+    "react": "^16.4.1",
     "react-autocomplete": "^1.8.1",
     "react-beautiful-dnd": "^8.0.5",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "^16.2.0",
     "react-flexbox-grid": "^2.1.2",
+    "react-flexboxgrid": "^1.0.1",
     "react-modal": "^3.5.1",
+    "react-rangeslider": "^2.2.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.1",
-    "react-search-bar": "^2.2.0"
+    "react-search-bar": "^2.2.0",
+    "reactstrap": "^6.3.1",
+    "simplebar-react": "0.0.1",
+    "socket.io-client": "^2.1.1",
+    "spotify-web-api-js": "^0.24.0",
+    "yarn": "^1.7.0"
   }
 }

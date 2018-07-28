@@ -58,7 +58,7 @@ class App extends Component {
         onDragUpdate={this.onDragUpdate}
         onDragEnd={this.onDragEnd}
          >
-            <div className="App">          
+            <div className="App">
             <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -110,8 +110,8 @@ class App extends Component {
               <Route path="/about" component={About}/>
           </Switch>
   </div>
-</div>                
-</DragDropContext>                                        
+</div>
+</DragDropContext>
         );
     }
 }

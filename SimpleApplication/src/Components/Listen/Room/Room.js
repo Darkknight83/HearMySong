@@ -54,7 +54,7 @@ const getListStyle = isDraggingOver => ({
 
 });
 
-ReactModal.setAppElement('#root')
+ReactModal.setAppElement('#root');
 
 export default class Room extends Component {
 
@@ -102,8 +102,7 @@ export default class Room extends Component {
 
         this.setState({room: new RoomEntity(roomName, genre, 'ownerPlaceholder', password, tags)});
         this.setState({creationDialogOpen: false});
-        console.log('----------------------------');
-        console.log(tags)
+        console.log(new RoomEntity(roomName, genre, 'ownerPlaceholder', password, tags));
     }
 
     leaveRoom() {
@@ -115,9 +114,7 @@ export default class Room extends Component {
     }
 
     closeCreationDialog() {
-        this.setState({creationDialogOpen: false})
-        console.log('----------------------------')
-        console.log(this.contentRef.toString())
+        this.setState({creationDialogOpen: false});
     }
 
     render() {
@@ -143,7 +140,7 @@ export default class Room extends Component {
                         <form>
                             <fieldset>
                                 <input type="text" name="roomname"
-                                       placeholder="roomname" required={true}
+                                       placeholder="roomname"
                                        autoFocus={true}/><br/>
                                 <span> Genre: </span>
                                 <select id = "genres">
