@@ -58,4 +58,33 @@ public class User {
 		this.credentials.add(credentials);
 
 	}
+
+	protected List<Credentials> getCredentials() {
+		return credentials;
+	}
+
+	protected void setCredentials(List<Credentials> credentials) {
+		this.credentials = credentials;
+	}
+
+	protected Room getRoom() {
+		return room;
+	}
+
+	protected void setRoom(Room room) {
+		this.room = room;
+	}
+
+	protected UserSettings getSetting() {
+		return setting;
+	}
+
+	protected void setSetting(UserSettings setting) {
+		this.setting = setting;
+	}
+
+	protected long getId() {
+		return id;
+	}
+
 }

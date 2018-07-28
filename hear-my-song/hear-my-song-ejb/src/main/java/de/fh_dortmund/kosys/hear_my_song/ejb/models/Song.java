@@ -20,4 +20,32 @@ public class Song {
 	private String urlExtention;
 	private long playbackTime;
 
+	protected Service getService() {
+		return service;
+	}
+
+	protected void setService(Service service) {
+		this.service = service;
+	}
+
+	protected String getUrlExtention() {
+		return urlExtention;
+	}
+
+	protected void setUrlExtention(String urlExtention) {
+		this.urlExtention = urlExtention;
+	}
+
+	public long getPlaybackTime() {
+		return playbackTime;
+	}
+
+	protected void setPlaybackTime(long playbackTime) {
+		this.playbackTime = playbackTime;
+	}
+
+	protected long getId() {
+		return id;
+	}
+	
 }

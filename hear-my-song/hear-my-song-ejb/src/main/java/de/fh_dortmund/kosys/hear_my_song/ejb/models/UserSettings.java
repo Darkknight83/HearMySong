@@ -13,4 +13,21 @@ public class UserSettings {
 	 * Gibt an, ob der Nutzer shuffel aktiviert hat
 	 */
 	private boolean shuffle;
+
+	protected int getCrossfade() {
+		return crossfade;
+	}
+
+	protected void setCrossfade(int crossfade) {
+		this.crossfade = crossfade;
+	}
+
+	protected boolean isShuffle() {
+		return shuffle;
+	}
+
+	protected void setShuffle(boolean shuffle) {
+		this.shuffle = shuffle;
+	}
+
 }
