@@ -20,7 +20,7 @@ public class Playlist {
 	private long id;
 	@OneToOne
 	private Room room;
-	@OneToMany
+	@OneToMany(mappedBy="playlist")
 	@JoinColumn(name="playlistId")
 	private List<Song> songs;
 
@@ -37,5 +37,10 @@ public class Playlist {
 	public List<Song> getSongs()
 	{
 		return this.songs;
+	}
+	
+	public Room getRoom()
+	{
+		return this.room;
 	}
 }

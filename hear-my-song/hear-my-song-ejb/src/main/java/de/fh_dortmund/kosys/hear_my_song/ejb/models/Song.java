@@ -17,6 +17,10 @@ public class Song {
 
 	@ManyToOne
 	private Service service;
+	
+	@ManyToOne
+	private Playlist playlist;
+	
 	private String urlExtention;
 	private long playbackTime;
 
@@ -44,8 +48,18 @@ public class Song {
 		this.playbackTime = playbackTime;
 	}
 
-	protected long getId() {
+	public long getId() {
 		return id;
+	}
+	
+	public Playlist getPlaylist()
+	{
+		return this.playlist;
+	}
+	
+	protected void setPlaylist(Playlist playlist)
+	{
+		this.playlist = playlist;
 	}
 	
 }

@@ -36,26 +36,38 @@ public class RoomManagementBean implements RoomManagementLocal {
 	}
 	
 	@Override
-	public void enterRoom(User user, long roomId)
+	public void enterRoom(long userId, long roomId)
 	{
 		Room room = em.find(Room.class, roomId);
+		User user = em.find(User.class, userId);
 		room.addUser(user);
 		em.merge(room);
 	}
 	
 	@Override
-	public void leaveRoom(User user,long roomId)
+	public void leaveRoom(long userId,long roomId)
 	{
 		Room room = em.find(Room.class, roomId);
+		User user = em.find(User.class, userId);
 		room.removeUser(user);
 		em.merge(room);
 	}
 	
 	@Override
-	public void addSong(Song song,long roomId)
+	public void addSong(long songId,long roomId)
 	{
 		Room room = em.find(Room.class, roomId);
+		Song song = em.find(Song.class, songId);
 		room.addSong(song);
+		em.merge(room);
+	}
+	
+	@Override
+	public void removeSong(long songId, long roomId)
+	{
+		Room room = em.find(Room.class, roomId);
+		Song song = em.find(Song.class, songId);
+		room.removeSong(song);
 		em.merge(room);
 	}
 

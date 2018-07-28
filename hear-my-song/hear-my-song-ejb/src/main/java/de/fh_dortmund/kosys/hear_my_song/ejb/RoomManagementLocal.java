@@ -12,8 +12,9 @@ import de.fh_dortmund.kosys.hear_my_song.ejb.models.User;
 public interface RoomManagementLocal {
 
 	public void createRoom();
-	public void enterRoom(User user, long roomId);
-	public void leaveRoom(User user,long roomId);
-	public void addSong(Song song, long roomId);
+	public void enterRoom(long userId, long roomId);
+	public void leaveRoom(long userId,long roomId);
+	public void addSong(long songId, long roomId);
+	public void removeSong(long songId, long roomId);
 	public List<Song> getSongs(long roomId);
 }
