@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
@@ -22,6 +23,7 @@ import de.fh_dortmund.kosys.hear_my_song.ejb.models.Song;
  */
 @Singleton
 @LocalBean
+@Startup
 public class TimerServiceBean {
 
 	@EJB

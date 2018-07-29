@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -21,7 +20,7 @@ public class Playlist {
 	@OneToOne
 	private Room room;
 	@OneToMany(mappedBy="playlist")
-	@JoinColumn(name="playlistId")
+//	@JoinColumn(name="playlistId")
 	private List<Song> songs;
 
 	public void addSong(Song song)

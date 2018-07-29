@@ -14,19 +14,19 @@ public class UserSettings {
 	 */
 	private boolean shuffle;
 
-	protected int getCrossfade() {
+	public int getCrossfade() {
 		return crossfade;
 	}
 
-	protected void setCrossfade(int crossfade) {
+	public void setCrossfade(int crossfade) {
 		this.crossfade = crossfade;
 	}
 
-	protected boolean isShuffle() {
+	public boolean isShuffle() {
 		return shuffle;
 	}
 
-	protected void setShuffle(boolean shuffle) {
+	public void setShuffle(boolean shuffle) {
 		this.shuffle = shuffle;
 	}
 

@@ -1,6 +1,8 @@
 package de.fh_dortmund.kosys.hear_my_song.ejb;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.Service;
 
@@ -9,6 +11,9 @@ import de.fh_dortmund.kosys.hear_my_song.ejb.models.Service;
  */
 @Stateless
 public class ServiceManagementBean implements ServiceManagementLocal {
+
+	@PersistenceContext
+	EntityManager em;
 
 	/**
 	 * Default constructor.
@@ -19,8 +24,7 @@ public class ServiceManagementBean implements ServiceManagementLocal {
 
 	@Override
 	public Service getService(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return em.find(Service.class, id);
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.fh_dortmund.kosys.hear_my_song.web;
+package de.fh_dortmund.kosys.hear_my_song.web.backendadapter;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -28,7 +28,8 @@ public class Backendadapter {
 	}
 
 
-	public static Backendadapter getInstance() {
+//	@Produces
+	public  Backendadapter getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Backendadapter();
 		}

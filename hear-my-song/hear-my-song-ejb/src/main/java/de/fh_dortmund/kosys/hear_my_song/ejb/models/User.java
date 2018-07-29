@@ -1,7 +1,9 @@
 package de.fh_dortmund.kosys.hear_my_song.ejb.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -28,7 +30,7 @@ public class User {
 	private long id;
 	private String name;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Credentials> credentials;
 
 	@ManyToOne
@@ -40,10 +42,16 @@ public class User {
 
 	public User(String name, Credentials credentials) {
 		this.name = name;
+		if (this.credentials == null)
+			this.credentials = new ArrayList<>();
 		this.credentials.add(credentials);
+		if (setting == null)
+			setting = new UserSettings();
 	}
 
 	public User() {
+		setting = new UserSettings();
+		this.credentials = new ArrayList<>();
 	}
 
 	public String getName() {
@@ -55,31 +63,33 @@ public class User {
 	}
 
 	public void addCredentials(Credentials credentials) {
+		if (this.credentials == null)
+			this.credentials = new ArrayList<>();
 		this.credentials.add(credentials);
 
 	}
 
-	protected List<Credentials> getCredentials() {
+	public List<Credentials> getCredentials() {
 		return credentials;
 	}
 
-	protected void setCredentials(List<Credentials> credentials) {
+	public void setCredentials(List<Credentials> credentials) {
 		this.credentials = credentials;
 	}
 
-	protected Room getRoom() {
+	public Room getRoom() {
 		return room;
 	}
 
-	protected void setRoom(Room room) {
+	public void setRoom(Room room) {
 		this.room = room;
 	}
 
-	protected UserSettings getSetting() {
+	public UserSettings getSetting() {
 		return setting;
 	}
 
-	protected void setSetting(UserSettings setting) {
+	public void setSetting(UserSettings setting) {
 		this.setting = setting;
 	}
 
