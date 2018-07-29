@@ -17,7 +17,7 @@ import de.fh_dortmund.kosys.hear_my_song.web.backendadapter.Backendadapter;
 @RequestScoped
 @Path("/user")
 public class UserEndpoint {
-	
+
 	@Inject
 	Backendadapter backendadapter;
 
@@ -29,7 +29,7 @@ public class UserEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response register(UserDTO user) {
-		return Response.ok(backendadapter.register(user.getName(), user.getService(),
+		return Response.ok(backendadapter.register(user.getName(), user.getUserId(), user.getService(),
 				user.getAccessToken(), user.getRefreshToken())).build();
 
 	}

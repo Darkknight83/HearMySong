@@ -11,10 +11,17 @@ public class SpotifyService extends AbstractService {
 
 	private SpotifyApi spotifyApi;
 
-
 	@Override
 	public String login() {
-		spotifyApi = new SpotifyApi.Builder().setAccessToken(this.getModel().getAccessToken()).build();
+		spotifyApi = new SpotifyApi.Builder().setAccessToken(this.getModel().getAccessToken())
+				.setRefreshToken(this.getModel().getRefreshToken()).setClientId(System.getProperty("spotifyID"))
+				.setClientSecret(System.getProperty("spotifySecret")).build();
+		try {
+			spotifyApi.startResumeUsersPlayback().build().execute();
+		} catch (SpotifyWebApiException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -26,10 +33,11 @@ public class SpotifyService extends AbstractService {
 	}
 
 	@Override
-	protected void addSongToPlaylist(String playlistId, String songId, int posistion) {
+	protected void addSongToPlaylist(String playlistId, String songId) {
 		if (model.getPlaylistId() == null) {
-			createPlaylist("Awsome");
+			createPlaylist("Awesome");
 		}
+		spotifyApi.addTracksToPlaylist(this.model.getUserId(), playlistId, new String[] { songId });
 	}
 
 	@Override

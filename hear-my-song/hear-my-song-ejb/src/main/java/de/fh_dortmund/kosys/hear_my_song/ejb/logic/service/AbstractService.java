@@ -8,6 +8,7 @@ public abstract class AbstractService {
 
 	public AbstractService create(ServiceModel model) {
 		this.model = model;
+		this.login();
 		return this;
 	}
 
@@ -24,10 +25,10 @@ public abstract class AbstractService {
 	public abstract void logoff();
 
 	public void addSongToPlaylist(String songId, int position) {
-		this.addSongToPlaylist(model.getPlaylistId(), songId, position);
+		this.addSongToPlaylist(model.getPlaylistId(), songId);
 	}
 
 	protected abstract String createPlaylist(String name);
 
-	protected abstract void addSongToPlaylist(String playlistId, String songId, int position);
+	protected abstract void addSongToPlaylist(String playlistId, String songId);
 }

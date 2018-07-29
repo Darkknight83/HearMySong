@@ -9,6 +9,7 @@ package de.fh_dortmund.kosys.hear_my_song.ejb.models.transfer;
 public class UserDTO {
 
 	private String name;
+	private String userId;
 	private long service;
 	private String accessToken;
 	private String refreshToken;
@@ -19,6 +20,14 @@ public class UserDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public long getService() {

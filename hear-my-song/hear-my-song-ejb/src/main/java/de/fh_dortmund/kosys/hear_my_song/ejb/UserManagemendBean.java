@@ -8,8 +8,10 @@ import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 
+import de.fh_dortmund.kosys.hear_my_song.ejb.logic.service.ServiceFactory;
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.Credentials;
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.User;
+import de.fh_dortmund.kosys.hear_my_song.ejb.models.services.ServiceModel;
 
 /**
  * Session Bean implementation class UserManagemendBean
@@ -23,6 +25,9 @@ public class UserManagemendBean implements UserManagemendLocal {
 	@EJB
 	ServiceManagementLocal serviceManagement;
 
+	@EJB
+	ServiceCacheBean serviceCache;
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -34,7 +39,7 @@ public class UserManagemendBean implements UserManagemendLocal {
 	}
 
 	@Override
-	public String register(String name, long service, String accessToken, String refreshToken) {
+	public String register(String name, String userId, long service, String accessToken, String refreshToken) {
 		if (name == null || accessToken == null || refreshToken == null) {
 			throw new IllegalArgumentException();
 		}
@@ -42,7 +47,16 @@ public class UserManagemendBean implements UserManagemendLocal {
 		user.setName(name);
 		user.addCredentials(
 				new Credentials(user, serviceManagement.getService(service), accessToken, refreshToken, name));
-		//TODO get those settings from Spotify
+
+		ServiceModel serviceModel = new ServiceModel();
+		serviceModel.setAccessToken(accessToken);
+		serviceModel.setRefreshToken(refreshToken);
+		serviceModel.setUsername(name);
+		serviceModel.setUserId(userId);
+
+		serviceManagement.getService(service).getName();
+		serviceCache.putService(user, ServiceFactory.getService(serviceManagement.getService(service), serviceModel));
+		// TODO get those settings from Spotify
 		user.getSetting().setCrossfade(0);
 		user.getSetting().setShuffle(false);
 		em.persist(user);

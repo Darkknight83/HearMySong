@@ -3,6 +3,7 @@ package de.fh_dortmund.kosys.hear_my_song.ejb.models.services;
 public class ServiceModel {
 
 	private String accessToken;
+	private String refreshToken;
 	private String username;
 	private String playlistId;
 	private String userId;
@@ -23,6 +24,14 @@ public class ServiceModel {
 		this.accessToken = accessToken;
 	}
 
+	public String getRefreshToken() {
+		return refreshToken;
+	}
+
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -38,5 +47,6 @@ public class ServiceModel {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 
 }
