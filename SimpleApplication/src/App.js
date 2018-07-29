@@ -19,6 +19,7 @@ class App extends Component {
     this.closeMenu = this.closeMenu.bind(this);
   }
 
+
   //vgl. react-beatiful-dnd Basic usage
   onDragStart = () => {
     /*...*/
@@ -50,8 +51,13 @@ class App extends Component {
       document.removeEventListener('click', this.closeMenu);
     });
   }
-  
+
  render() {
+
+
+  
+
+
         return (
         <DragDropContext
         onDragStart={this.onDragStart}
@@ -74,11 +80,11 @@ class App extends Component {
 
 {/*Adding the regular menu*/}
 
-            <div className="menu">   
+            <div className="menu">
                 <Link to="/">Listen</Link>
                 <Link to="/help">Help</Link>
                 <Link to="/about">About</Link>
-            </div>       
+            </div>
 
 {/*Adding the Dropdownmenu for small devices*/}
 
@@ -87,16 +93,16 @@ class App extends Component {
             {
           this.state.showMenu
             ? (
-            <div className="dropmenu">   
+            <div className="dropmenu">
             <Link to="/" >Listen</Link>
             <Link to="/help">Help</Link>
             <Link to="/about">About</Link>
-            </div>   
+            </div>
             )
             : (
               null
             )
-        }       
+        }
             </div>
 
             </div>

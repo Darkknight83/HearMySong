@@ -11,6 +11,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import SongSearch from './Search/SongSearch.js';
 
 const spotifyApi = new SpotifyWebApi();
+const registerUser = 'http://localhost:8080/hear-my-song-web/rest/user/register';
 
 
 export default class Listen extends Component {
@@ -18,6 +19,7 @@ export default class Listen extends Component {
         super();
         const params = this.getHashParams();
         const token = params.access_token;
+        const refresh_token = params.refresh_token;
         if (token) {
             spotifyApi.setAccessToken(token);
         }
@@ -38,6 +40,7 @@ export default class Listen extends Component {
         roomarray[9] = "HMS - Classic";
 
         this.state = {
+            token: token,
             color: 'white',
             loggedIn: token ? true : false,
             nowPlaying: { name: 'Name', artists: "Artists", albumArt: '' },
@@ -47,10 +50,38 @@ export default class Listen extends Component {
             currentRoom: null,
             valueRoom: '',
             rooms: roomarray,
-            roomlist: 'Show Rooms'
+            roomlist: 'Show Rooms',
+            refresh_token: refresh_token
         }
         spotifyApi.setVolume(50, {});
+        this.createUser();
     }
+
+
+  createUser = (url = registerUser, data = {
+  "name": "Username",
+  "service": 1,
+  "accessToken": this.state.token,
+  "refreshToken": this.state.refresh_token
+}) => {
+      // Default options are marked with *
+        return fetch(url, {
+            method: "PUT", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, cors, *same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "omit", // include, same-origin, *omit
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                // "Content-Type": "application/x-www-form-urlencoded",
+            },
+            redirect: "follow", // manual, *follow, error
+            referrer: "no-referrer", // no-referrer, *client
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        })
+        .then(response => response.json()) // parses response to JSON
+        .catch(error => console.error(`Fetch Error =\n`, error));
+    };
+
 
     setRoom = (currentRoom) => {
         this.setState({ currentRoom: currentRoom })
@@ -140,6 +171,52 @@ export default class Listen extends Component {
     }
 
     render() {
+
+
+      /*
+
+      SPOTIFY WEBPLAYBACK
+
+      */
+
+      window.onSpotifyWebPlaybackSDKReady = () => {
+             const Spotify = window.Spotify;
+            const token = this.state.token;
+            const player = new Spotify.Player({
+              name: 'Hear My Song',
+              getOAuthToken: cb => { cb(token); }
+            });
+
+            // Error handling
+            player.addListener('initialization_error', ({ message }) => { console.error(message); });
+            player.addListener('authentication_error', ({ message }) => { console.error(message); });
+            player.addListener('account_error', ({ message }) => { console.error(message); });
+            player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+            // Playback status updates
+            player.addListener('player_state_changed', state => { console.log(state); });
+
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+              console.log('Ready with Device ID', device_id);
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+              console.log('Device ID has gone offline', device_id);
+            });
+
+            // Connect to the player!
+            player.connect();
+          };
+
+
+      /*
+
+      SPOTIFY WEBPLAYBACK
+
+      */
+
 
         this.getPlaybackState()
         const { value } = this.state
