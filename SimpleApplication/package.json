@@ -16,6 +16,7 @@
     "create-react-class": "^15.6.3",
     "jquery": "^3.3.1",
     "prop-types": "^15.6.2",
+    "proxy": "http://localhost:8888/",
     "querystring": "~0.2.0",
     "react": "^16.4.1",
     "react-autocomplete": "^1.8.1",
@@ -27,6 +28,7 @@
     "react-flexboxgrid": "^1.0.1",
     "react-modal": "^3.5.1",
     "react-rangeslider": "^2.2.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.4",
     "react-search-bar": "^2.2.0",
@@ -34,7 +36,6 @@
     "simplebar-react": "0.0.1",
     "socket.io-client": "^2.1.1",
     "spotify-web-api-js": "^0.24.0",
-    "yarn": "^1.7.0",
-    "proxy": "http://localhost:8888/"
+    "yarn": "^1.7.0"
   }
 }

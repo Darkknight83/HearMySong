@@ -1,62 +1,90 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import SpotifyWebApi from 'spotify-web-api-js';
 import './Listen.css';
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
-import 'simplebar'; // or "import SimpleBar from 'simplebar';" if you want to use it manually.
-import 'simplebar/dist/simplebar.css';
 import { Grid, Row, Col } from 'react-flexboxgrid';
 import Room from './Room/Room.js';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import SongSearch from './Search/SongSearch.js';
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
+import ListofRooms from './ListofRooms/ListofRooms.js';
 
 const spotifyApi = new SpotifyWebApi();
 const registerUser = 'http://localhost:8080/hear-my-song-web/rest/user/register';
 
+class RoomEntity {
+    constructor(name, genre, owner, password , tags) {
+        this.name = name;
+        this.password = password;
+        this.owner = owner;
+        this.genre = genre;
+        this.tags = tags;
+        this.listeners = 0;
+    }
+}
 
 export default class Listen extends Component {
     constructor(){
         super();
+
+/*   GETTING BOTH TOKENS FROM URL  */
+
         const params = this.getHashParams();
         const token = params.access_token;
         const refresh_token = params.refresh_token;
+
+/* SETTING ACCESTOKEN FOR THE API */
+
         if (token) {
             spotifyApi.setAccessToken(token);
         }
 
-        this.handleChangeRoom = this.handleChangeRoom.bind(this);
-        this.handleSubmitRoom = this.handleSubmitRoom.bind(this);
+/*ARRAY OF ROOMS TO BE DISPLAYED IN LIST */
 
         let roomarray = [];
-        roomarray[0] = "HMS - Mostplayed";
-        roomarray[1] = "HMS - Rock";
-        roomarray[2] = "HMS - Pop";
-        roomarray[3] = "HMS - House";
-        roomarray[4] = "HMS - Metal";
-        roomarray[5] = "HMS - Funk";
-        roomarray[6] = "HMS - Soul";
-        roomarray[7] = "HMS - RNB";
-        roomarray[8] = "HMS - Black";
-        roomarray[9] = "HMS - Classic";
+
+/* SOME INITIAL STATES */
 
         this.state = {
             token: token,
-            color: 'white',
+            refresh_token: refresh_token,
             loggedIn: token ? true : false,
             nowPlaying: { name: 'Name', artists: "Artists", albumArt: '' },
             isplaying: false,
             value: 50,
-            rooms: null,
-            currentRoom: null,
-            valueRoom: '',
             rooms: roomarray,
+            valueRoom: '',
             roomlist: 'Show Rooms',
-            refresh_token: refresh_token
+            currentRoom: null
         }
+
+        this.state.rooms.push(new RoomEntity("HMS - Mostplayed", "All", "hms", null, "Trending"));
+        this.state.rooms.push(new RoomEntity("HMS - Rock", "Rock", "hms", null, "Headbang"));
+        this.state.rooms.push(new RoomEntity("HMS - Pop", "Pop", 'hms', null, "chillin"));
+        this.state.rooms.push(new RoomEntity("HMS - House", "House", 'hms', null, "Party"));
+        this.state.rooms.push(new RoomEntity("HMS - Metal", "Metal", 'hms', null, "Screaming"));
+        this.state.rooms.push(new RoomEntity("HMS - Funk", "Funk", 'hms', null, "GoodVibes"));
+        this.state.rooms.push(new RoomEntity("HMS - Soul", "Soul", 'hms', null, "Relax"));
+        this.state.rooms.push(new RoomEntity("HMS - RnB", "RnB", 'hms', null, "Clubbin"));
+        this.state.rooms.push(new RoomEntity("HMS - Black", "Black", 'hms', null, "Clubbin"));
+        this.state.rooms.push(new RoomEntity("HMS - Classic", "Classic", 'hms', null, "Relaxing"));
+        this.state.rooms.push(new RoomEntity("HMS - Private", "All", 'hms', "admin", "Experimental"));
+
+          this.setRoom = this.setRoom.bind(this);
+          this.addRoom = this.addRoom.bind(this);
+
+/*  TO MAKE VOLUME EQUAL WITH SPOTIFY VOLUME*/
+
         spotifyApi.setVolume(50, {});
-        this.createUser();
+        this.createUser();/* WRONG PLACE HERE*/
+
+
     }
 
+/* WRITES A NEW USER TO OUR DATABASE */
 
   createUser = (url = registerUser, data = {
   "name": "Username",
@@ -64,28 +92,23 @@ export default class Listen extends Component {
   "accessToken": this.state.token,
   "refreshToken": this.state.refresh_token
 }) => {
-      // Default options are marked with *
         return fetch(url, {
-            method: "PUT", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, cors, *same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "omit", // include, same-origin, *omit
+            method: "PUT",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "omit",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                // "Content-Type": "application/x-www-form-urlencoded",
             },
-            redirect: "follow", // manual, *follow, error
-            referrer: "no-referrer", // no-referrer, *client
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify(data),
         })
         .then(response => response.json()) // parses response to JSON
         .catch(error => console.error(`Fetch Error =\n`, error));
     };
 
-
-    setRoom = (currentRoom) => {
-        this.setState({ currentRoom: currentRoom })
-    }
+/*  GET TOKENS FROM URL */
 
     getHashParams(){
         var hashParams = {};
@@ -99,6 +122,8 @@ export default class Listen extends Component {
         return hashParams;
     }
 
+/* A SLEEP USED TO LOWER THE AMOUNT OF API REQUESTS */
+
     sleep(milliseconds) {
         var start = new Date().getTime();
         for (var i = 0; i < 1e7; i++) {
@@ -107,6 +132,29 @@ export default class Listen extends Component {
             }
         }
     }
+
+/* SETTING CURRENT ROOM AS STATE FOR STATEBASED RENDERING */
+
+    setRoom = (currentRoom) => {
+      this.setState({currentRoom: currentRoom})
+    }
+
+
+    /* SETTING CURRENT ROOM AS STATE FOR STATEBASED RENDERING */
+
+        addRoom(newRoom) {
+          console.log("In addRoom:");
+          console.log(this.state.rooms);
+          this.setState({
+            rooms: this.state.rooms.concat(newRoom)
+          })
+          console.log(newRoom);
+          console.log(this.state.rooms);
+          console.log("Out addRoom:");
+        }
+
+
+/* GETTING THE CURRENT PLAYBACK STATE FROM USER TO DISPLAY IN THE PLAYER */
 
     getPlaybackState(){
         this.sleep(70);
@@ -124,15 +172,19 @@ export default class Listen extends Component {
             })
     }
 
+/* API CALL TO PAUSE A SONG */
+
     pauseSong(){
         spotifyApi.pause({});
-        this.getPlaybackState();
     }
+
+/* API CALL TO PLAY A SONG */
 
     playSong(){
         spotifyApi.play({});
-        this.getPlaybackState();
     }
+
+/* HANDLER FOR THE VOLUMESLIDER */
 
     handleChange = value => {
         this.setState({
@@ -141,22 +193,7 @@ export default class Listen extends Component {
         spotifyApi.setVolume(value, {});
     };
 
-    handleChangeRoom(event) {
-        this.setState({valueRoom: event.target.value});
-    }
-
-    handleSubmitRoom(event) {
-        this.setState({currentRoom: this.state.valueRoom});
-        this.addRoom();
-        event.preventDefault();
-    }
-
-    addRoom(newRoom){
-        var roomarray = this.state.rooms;
-        roomarray.push(this.state.valueRoom)
-        this.setState({
-            rooms: roomarray});
-    }
+/* TOGGLE THE VISIBILITY OF ROOMLIST FOR XS SCREENS */
 
     toggleRoomlist() {
         let div = document.getElementById('leftbar');
@@ -173,11 +210,7 @@ export default class Listen extends Component {
     render() {
 
 
-      /*
-
-      SPOTIFY WEBPLAYBACK
-
-      */
+      /*  SPOTIFY WEBPLAYBACK */
 
       window.onSpotifyWebPlaybackSDKReady = () => {
              const Spotify = window.Spotify;
@@ -210,16 +243,15 @@ export default class Listen extends Component {
             player.connect();
           };
 
+/* UPDATE PLAYBACKSTATE PERMANENTLY */
 
-      /*
+        this.getPlaybackState();
 
-      SPOTIFY WEBPLAYBACK
+/* VOLUMESLIDER VALUE */
 
-      */
-
-
-        this.getPlaybackState()
         const { value } = this.state
+
+/* ADDS THE ARTISTS OF THE SONG FROM CURRENT PLAYBACK */
 
         const { artists } = this.state.nowPlaying
         let text = ""
@@ -229,18 +261,15 @@ export default class Listen extends Component {
         }
         text += artists[i].name
 
-        let listOfRooms = [];
-        if(this.state.rooms != null){
-            let c;
-            for(c = 0; c < this.state.rooms.length; c++){
-                let rname = this.state.rooms[c]
-                listOfRooms[c] = <div className="roombuttons" onClick={() => this.setRoom(rname)}><div className="roombuttoninfo">{rname} <img src={require('./icons/key.png')} height="15" width="15" /> 56 <img src={require('./icons/listeners.png')} height="18" width="18" /><br/>
-                    <div className="tags"> Tags: <u>Cool</u>, <u>Brandnew</u>, <u>Insider</u>, <u>GoodVibes</u></div></div></div>
-            }
-        }
+/* GET THE ROOMARRAY FROM STATE AND CREATES DIVS TO DISPLAY*/
+
+
+
 
         return (
+
             <div id="container">
+            {/* IF LOGGED IN STATE = TRUE, DISPLAY THIS*/}
                 {this.state.loggedIn &&
                 <div id="loged" className="loged-display">
                     <div id="content" class="row">
@@ -248,22 +277,34 @@ export default class Listen extends Component {
                             <button onClick={() => this.toggleRoomlist()}>{this.state.roomlist}</button>
                         </div>
                         <div id="leftbar" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                            <div data-simplebar id="roomlist">
-                                {listOfRooms}
-                            </div>
+                                <ListofRooms
+                                setRoom={this.setRoom}
+                                rooms={this.state.rooms}
+                                />
+                                {console.log("In Listen")}
+                                {console.log(this.state.rooms)}
+                                {console.log("Out Listen")}
                         </div>
                         <div id="center" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                            <Room/>
+                            <Room
+                            rooms={this.state.rooms}
+                            addRoom={this.addRoom}
+                            setRoom={this.setRoom}
+                            currentRoom={this.state.currentRoom}
+                            />
                         </div>
                         <div id="rightbar" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                        {this.state.currentRoom != null &&
                             <SongSearch/>
+                          }
                         </div>
                     </div>
+                    {/* DISPLAY FOOTER WHILE NOT IN A ROOM */}
                     {this.state.currentRoom == null &&
                     <div id="footer" className="footer">
                     </div>
                     }
-
+                    {/* DISPLAY PLAYER WHILE IN A ROOM */}
                     {this.state.currentRoom != null &&
                     <div id="player" className="player">
                         <div id="album-img">
@@ -304,7 +345,7 @@ export default class Listen extends Component {
                     }
                 </div>
                 }
-
+              {/* SHOW LOGIN BUTTON IF NOT LOGGED IN */}
                 {!this.state.loggedIn &&
                 <div id="unloged" className="unloged-display">
                     <div>

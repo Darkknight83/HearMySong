@@ -33,18 +33,18 @@ const grid = 8;
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
+  padding: grid * 0,
   margin: `0 0 ${grid}px 0`,
 
   // change background colour if dragging
-  background: isDragging ? 'lightgrey' : 'grey',
+  background: isDragging ? 'white' : 'white',
 
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'rgba(62, 62, 62, 1)' : 'lightgrey',
+  background: isDraggingOver ? 'white' : 'white',
   padding: grid,
   width: 250,
 
@@ -83,15 +83,14 @@ export default class SongSearch extends Component {
 
     render() {
         return (
-            <div>
-           -<Grid fluid>
-            <Col>
-            <Row>
-                <Autocomplete
+            <div id="Searchcontainer">
+            <div id="searchline">
+                  <Autocomplete
                     getItemValue={(item) => item}
                     items={this.state.items.map(el => el.song.songname)}
                     renderItem={(item, isHighlighted) =>
-                        <div style={{ background: isHighlighted ? 'lightgray' : 'white', color: 'black' }}>
+                        <div
+                        style={{ background: isHighlighted ? 'lightgray' : 'white', color: 'black' }}>
                             {item}
                         </div>
                     }
@@ -101,25 +100,28 @@ export default class SongSearch extends Component {
                         const filteredItems = this.state.items.filter(el => el.song.songname.localeCompare(val) === 0);
                         this.setState({items: filteredItems})
                     }}
-            />
+                  />
             <span onClick={this.searchTerm()} className="fa-stack fa-lg">
                 <i className="fa fa-square fa-stack-2x"></i>
-                <i className="fa fa-search fa-stack-1x fa-inverse" style= {{color: '#00B8FF'}}></i>
+                <i className="fa fa-search fa-stack-1x fa-inverse"></i>
             </span>
-            </Row>
-            </Col>
-            </Grid>
-                   
+            </div>
+
+
+
+
+            <div id="results">
             <Droppable droppableId="droppable">
             {(provided, snapshot) => (
-                <div
+              <div id="songcontainer">
+                <div id="resultbox"
                     ref={provided.innerRef}
                     style={getListStyle(snapshot.isDraggingOver)}
                 >
                 {this.state.items.map((item, index) => (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
-                        <div
+                        <div id="innerresultbox"
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -136,17 +138,19 @@ export default class SongSearch extends Component {
                                 <span onClick={this.addItemToRoom(item)}
                                  className="add-button" id="raw"><button className="btn btn-mini"><i className="fa fa-plus"></i></button></span>
                             </div>
+
                         </div>
                     )}
                     </Draggable>
                 ))}
+                </div>
                 {provided.placeholder}
                 </div>
             )}
             </Droppable>
             </div>
+            </div>
         );
     }
 
 }
-

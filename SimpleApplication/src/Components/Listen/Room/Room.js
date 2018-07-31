@@ -12,6 +12,7 @@ class RoomEntity {
         this.owner = owner;
         this.genre = genre;
         this.tags = tags;
+        this.listeners = 0;
     }
 }
 
@@ -58,11 +59,12 @@ ReactModal.setAppElement('#root');
 
 export default class Room extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             creationDialogOpen: false,
-            room: null,
+            rooms: this.props.rooms,
+            currentRoom: this.props.currentRoom,
             items: []
         };
 
@@ -100,13 +102,15 @@ export default class Room extends Component {
                             split(',').
                             map(tag => tag.trim());
 
-        this.setState({room: new RoomEntity(roomName, genre, 'ownerPlaceholder', password, tags)});
+
+        /*this.props.addRoom(this.state.room);*/
+        this.props.setRoom(roomName);
+        this.props.addRoom(new RoomEntity(roomName, genre, "Owner", password, tags));
         this.setState({creationDialogOpen: false});
-        console.log(new RoomEntity(roomName, genre, 'ownerPlaceholder', password, tags));
     }
 
     leaveRoom() {
-        this.setState({room: null})
+        this.props.setRoom(null);
     }
 
     openCreationDialog() {
@@ -119,10 +123,10 @@ export default class Room extends Component {
 
     render() {
 
-        var genreList = ['Rock','Pop','House','Metal','Funk','Soul','RNB','Black','Classic']
+        var genreList = ['All','Rock','Pop','House','Metal','Funk','Soul','RNB','Black','Classic']
 
         const divClassName = 'room';
-        if (this.state.room == null) {
+        if (this.props.currentRoom == null) {
             return (
                 <div className={divClassName}>
                     <button className="btn btn-info" onClick={this.openCreationDialog}
@@ -201,8 +205,12 @@ export default class Room extends Component {
                             </div>
                         )}
                     </Droppable>
+                    <span>
+                    Current Room is: <br/>
+                    {this.props.currentRoom}</span><br/>
                     <button onClick={() => this.leaveRoom()} type="button" name="Leave" style={{color: 'black'}}>Leave
                     </button>
+
                 </div>
             );
         }
