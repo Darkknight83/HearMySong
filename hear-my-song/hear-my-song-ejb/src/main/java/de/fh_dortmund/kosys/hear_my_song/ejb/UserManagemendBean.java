@@ -4,12 +4,15 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 
+import de.fh_dortmund.kosys.hear_my_song.ejb.logic.service.AbstractService;
 import de.fh_dortmund.kosys.hear_my_song.ejb.logic.service.ServiceFactory;
-import de.fh_dortmund.kosys.hear_my_song.ejb.models.Credentials;
+import de.fh_dortmund.kosys.hear_my_song.ejb.logic.service.exceptions.TokenExpiredException;
+import de.fh_dortmund.kosys.hear_my_song.ejb.models.Service;
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.User;
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.services.ServiceModel;
 
@@ -39,14 +42,13 @@ public class UserManagemendBean implements UserManagemendLocal {
 	}
 
 	@Override
-	public String register(String name, String userId, long service, String accessToken, String refreshToken) {
+	public String register(String name, String userId, long serviceId, String accessToken, String refreshToken)
+			throws IllegalAccessException {
 		if (name == null || accessToken == null || refreshToken == null) {
 			throw new IllegalArgumentException();
 		}
 		User user = new User();
 		user.setName(name);
-		user.addCredentials(
-				new Credentials(user, serviceManagement.getService(service), accessToken, refreshToken, name));
 
 		ServiceModel serviceModel = new ServiceModel();
 		serviceModel.setAccessToken(accessToken);
@@ -54,14 +56,33 @@ public class UserManagemendBean implements UserManagemendLocal {
 		serviceModel.setUsername(name);
 		serviceModel.setUserId(userId);
 
-		serviceManagement.getService(service).getName();
-		serviceCache.putService(user, ServiceFactory.getService(serviceManagement.getService(service), serviceModel));
-		// TODO get those settings from Spotify
-		user.getSetting().setCrossfade(0);
-		user.getSetting().setShuffle(false);
+		Service service = serviceManagement.getService(serviceId);
+		if (service == null) {
+			throw new EntityNotFoundException("Service: " + serviceId);
+		}
+
+		AbstractService abstractService = ServiceFactory.getService(service, serviceModel);
+		try {
+			if (!abstractService.getUsername().equals(userId)) {
+				throw new IllegalAccessException("Angegebener Username nicht korrekt!");
+			}
+		} catch (TokenExpiredException e) {
+			logger.info("Token ungültig. Versuche zu refreshen!");
+			try {
+				abstractService.refreshToken();
+				if (!abstractService.getUsername().equals(userId)) {
+					throw new IllegalAccessException("Angegebener Username nicht korrekt!");
+				}
+			} catch (TokenExpiredException e1) {
+				logger.error("Token konnte nicht refreshed werden!");
+				throw new RuntimeException(e1);
+			}
+		}
+
+		serviceCache.putService(user, abstractService);
 		em.persist(user);
 		logger.info(user + "erfolgreich registeriert");
-		return accessToken;
+		return abstractService.getModel().getAccessToken();
 	}
 
 }

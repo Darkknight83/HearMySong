@@ -1,4 +1,7 @@
-package de.fh_dortmund.kosys.hear_my_song.ejb.models.transfer;
+package de.fh_dortmund.kosys.hear_my_song.web.models;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Model to store data for the UserEndpoint
@@ -6,6 +9,7 @@ package de.fh_dortmund.kosys.hear_my_song.ejb.models.transfer;
  * @author timpr
  *
  */
+@JsonInclude(Include.NON_DEFAULT)
 public class UserDTO {
 
 	private String name;

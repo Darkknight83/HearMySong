@@ -4,26 +4,22 @@ import java.io.IOException;
 
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.exceptions.detailed.UnauthorizedException;
 import com.wrapper.spotify.model_objects.specification.Playlist;
+import com.wrapper.spotify.model_objects.specification.User;
 import com.wrapper.spotify.requests.data.playlists.CreatePlaylistRequest;
+
+import de.fh_dortmund.kosys.hear_my_song.ejb.logic.service.exceptions.TokenExpiredException;
 
 public class SpotifyService extends AbstractService {
 
 	private SpotifyApi spotifyApi;
 
 	@Override
-	public String login() {
+	public void login() {
 		spotifyApi = new SpotifyApi.Builder().setAccessToken(this.getModel().getAccessToken())
 				.setRefreshToken(this.getModel().getRefreshToken()).setClientId(System.getProperty("spotifyID"))
 				.setClientSecret(System.getProperty("spotifySecret")).build();
-		try {
-			spotifyApi.startResumeUsersPlayback().build().execute();
-		} catch (SpotifyWebApiException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -33,7 +29,7 @@ public class SpotifyService extends AbstractService {
 	}
 
 	@Override
-	protected void addSongToPlaylist(String playlistId, String songId) {
+	protected void addSongToPlaylist(String playlistId, String songId) throws TokenExpiredException {
 		if (model.getPlaylistId() == null) {
 			createPlaylist("Awesome");
 		}
@@ -41,7 +37,7 @@ public class SpotifyService extends AbstractService {
 	}
 
 	@Override
-	protected String createPlaylist(String name) {
+	protected String createPlaylist(String name) throws TokenExpiredException {
 		final CreatePlaylistRequest createPlaylistRequest = spotifyApi.createPlaylist(model.getUserId(), name)
 				.collaborative(false).public_(false).description("Playlist für Hear My Song").build();
 		try {
@@ -50,9 +46,42 @@ public class SpotifyService extends AbstractService {
 			return playlist.getId();
 
 		} catch (IOException | SpotifyWebApiException e) {
-			// TODO LOG
+			if (e instanceof UnauthorizedException) {
+				throw new TokenExpiredException(e);
+			}
+			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public String getUsername() throws TokenExpiredException {
+		User user = null;
+		try {
+			user = spotifyApi.getCurrentUsersProfile().build().execute();
+		} catch (SpotifyWebApiException | IOException e) {
+			if (e instanceof UnauthorizedException) {
+				throw new TokenExpiredException(e);
+			}
+			e.printStackTrace();
+		}
+		if (user == null) {
+			throw new TokenExpiredException();
+		}
+		return user.getDisplayName();
+	}
+
+	@Override
+	public void refreshToken() throws TokenExpiredException {
+		try {
+			spotifyApi.authorizationCodeRefresh().build().execute();
+		} catch (SpotifyWebApiException | IOException e) {
+			if (e instanceof UnauthorizedException) {
+				throw new TokenExpiredException(e);
+			}
+			e.printStackTrace();
+		}
+
 	}
 
 }
