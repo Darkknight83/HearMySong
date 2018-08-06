@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  height:50px;
+  padding: 0;
+  margin: 0;
+  box-shadow: 3px 3px 3px 3px grey;
 }
 
 #flex-container > .song-info {
@@ -20,3 +24,62 @@
   padding: 1rem;
 }
 
+#Searchcontainer{
+  height:100%;
+  min-width: 100%;
+  overflow-x:hidden;
+  overflow-y: auto;
+  background-image: url('./icons/hms-roomback.png');
+  background-repeat: no-repeat;
+  background-size: 90%;
+  background-position: center;
+  background-color:white;
+  padding: 0;
+  margin: 0;
+}
+
+#results{
+  height:90%;
+  min-width: 100%;
+  opacity: 0.95;
+  padding: 0px;
+  padding: 0;
+  margin: 0;
+}
+
+#resultbox{
+  min-width: 100%;
+  min-height:100%;
+  padding: 0;
+  margin: 0;
+  font-size:120%;
+  font-weight: 500;
+}
+
+#innerresultbox{
+  height:100%;
+  background: white;
+  padding: 0px;
+  margin:0;
+  font-size:120%;
+  font-weight: 700;
+  width: 100%;
+  margin-left:-20px;
+  opacity: 1;
+}
+
+.song-name{
+  background-color: white;
+}
+
+.song-length{
+background-color: white;
+}
+
+.add-button button{
+  background-color: white;
+}
+
+#searchline{
+  height: 10%;
+}
