@@ -1,12 +1,21 @@
 package de.fh_dortmund.kosys.hear_my_song.web;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import de.fh_dortmund.kosys.hear_my_song.web.backendadapter.Backendadapter;
 
 @RequestScoped
 @Path("/room")
 public class RoomEndpoint {
+
+	@Inject
+	Backendadapter backendadapter;
 
 	/**
 	 * Hinzufügen eines Songs zur Playlist innerhalb eines Raums
@@ -30,8 +39,10 @@ public class RoomEndpoint {
 	 * Liefer alle Räume
 	 * 
 	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRooms() {
-		return null;
+		return Response.ok().entity(backendadapter.getRooms()).build();
 	}
 
 	/**
@@ -64,6 +75,7 @@ public class RoomEndpoint {
 
 	/**
 	 * Erstellt einen neuen Raum
+	 * 
 	 * @return
 	 */
 	public Response createRoom() {
@@ -72,6 +84,7 @@ public class RoomEndpoint {
 
 	/**
 	 * Synchronisiert die Playbackzeit mit der auf dem Server
+	 * 
 	 * @return
 	 */
 	public Response syncPlayback() {

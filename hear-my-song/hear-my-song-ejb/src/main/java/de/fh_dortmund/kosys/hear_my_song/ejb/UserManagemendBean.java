@@ -63,9 +63,11 @@ public class UserManagemendBean implements UserManagemendLocal {
 
 		AbstractService abstractService = ServiceFactory.getService(service, serviceModel);
 		try {
-			if (!abstractService.getUsername().equals(userId)) {
-				throw new IllegalAccessException("Angegebener Username nicht korrekt!");
+			String username = abstractService.getUsername();
+			if (username.equals(userId)) {
+				throw new IllegalAccessException("Angegebener Username nicht korrekt! Username: "+username);
 			}
+			logger.info("User: " + username + " hat sich registriert. Service: " + service.getName());
 		} catch (TokenExpiredException e) {
 			logger.info("Token ungültig. Versuche zu refreshen!");
 			try {
@@ -74,14 +76,14 @@ public class UserManagemendBean implements UserManagemendLocal {
 					throw new IllegalAccessException("Angegebener Username nicht korrekt!");
 				}
 			} catch (TokenExpiredException e1) {
-				logger.error("Token konnte nicht refreshed werden!");
-				throw new RuntimeException(e1);
+				logger.error("Token konnte nicht refreshed werden!", e1);
+				throw new IllegalArgumentException(e1);
 			}
 		}
 
 		serviceCache.putService(user, abstractService);
 		em.persist(user);
-		logger.info(user + "erfolgreich registeriert");
+		logger.info(user.getName() + "erfolgreich registeriert");
 		return abstractService.getModel().getAccessToken();
 	}
 

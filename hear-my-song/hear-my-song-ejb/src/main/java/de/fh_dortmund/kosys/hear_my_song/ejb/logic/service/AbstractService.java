@@ -35,5 +35,10 @@ public abstract class AbstractService {
 
 	public abstract String getUsername() throws TokenExpiredException;
 
-	public abstract void refreshToken() throws TokenExpiredException;
+	public String refreshToken() throws TokenExpiredException {
+		this.refreshToken();
+		return this.getModel().getRefreshToken();
+	}
+
+	public abstract void refreshTokenImpl() throws TokenExpiredException;
 }

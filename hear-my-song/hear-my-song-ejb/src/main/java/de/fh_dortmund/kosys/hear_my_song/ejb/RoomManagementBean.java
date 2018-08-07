@@ -19,52 +19,49 @@ public class RoomManagementBean implements RoomManagementLocal {
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@EJB
 	UserManagemendLocal userManagement;
-    /**
-     * Default constructor. 
-     */
-    public RoomManagementBean() {
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * Default constructor.
+	 */
+	public RoomManagementBean() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void createRoom() {
 		Room room = new Room();
 		em.persist(room);
 	}
-	
+
 	@Override
-	public void enterRoom(long userId, long roomId)
-	{
+	public void enterRoom(long userId, long roomId) {
 		Room room = em.find(Room.class, roomId);
 		User user = em.find(User.class, userId);
 		room.addUser(user);
 		em.merge(room);
 	}
-	
+
 	@Override
-	public void leaveRoom(long userId,long roomId)
-	{
+	public void leaveRoom(long userId, long roomId) {
 		Room room = em.find(Room.class, roomId);
 		User user = em.find(User.class, userId);
 		room.removeUser(user);
 		em.merge(room);
 	}
-	
+
 	@Override
-	public void addSong(long songId,long roomId)
-	{
+	public void addSong(long songId, long roomId) {
 		Room room = em.find(Room.class, roomId);
 		Song song = em.find(Song.class, songId);
 		room.addSong(song);
 		em.merge(room);
 	}
-	
+
 	@Override
-	public void removeSong(long songId, long roomId)
-	{
+	public void removeSong(long songId, long roomId) {
 		Room room = em.find(Room.class, roomId);
 		Song song = em.find(Song.class, songId);
 		room.removeSong(song);
@@ -76,7 +73,10 @@ public class RoomManagementBean implements RoomManagementLocal {
 		Room room = em.find(Room.class, roomId);
 		return room.getSongs();
 	}
-	
-	
+
+	@Override
+	public List<Room> getRooms() {
+		return em.createNamedQuery(Room.QUERY_FINDALL, Room.class).getResultList();
+	}
 
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.exceptions.detailed.UnauthorizedException;
+import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.model_objects.specification.Playlist;
 import com.wrapper.spotify.model_objects.specification.User;
 import com.wrapper.spotify.requests.data.playlists.CreatePlaylistRequest;
@@ -68,13 +69,18 @@ public class SpotifyService extends AbstractService {
 		if (user == null) {
 			throw new TokenExpiredException();
 		}
-		return user.getDisplayName();
+		return user.getId();
 	}
 
 	@Override
-	public void refreshToken() throws TokenExpiredException {
+	public void refreshTokenImpl() throws TokenExpiredException {
 		try {
-			spotifyApi.authorizationCodeRefresh().build().execute();
+			AuthorizationCodeCredentials credentials = spotifyApi.authorizationCodeRefresh().build().execute();
+			this.model.setAccessToken(credentials.getAccessToken());
+			this.model.setRefreshToken(credentials.getRefreshToken());
+			spotifyApi.setAccessToken(credentials.getAccessToken());
+			spotifyApi.setRefreshToken(credentials.getRefreshToken());
+
 		} catch (SpotifyWebApiException | IOException e) {
 			if (e instanceof UnauthorizedException) {
 				throw new TokenExpiredException(e);

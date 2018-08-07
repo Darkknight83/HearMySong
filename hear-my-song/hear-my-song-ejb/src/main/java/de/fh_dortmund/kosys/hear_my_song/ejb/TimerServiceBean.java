@@ -1,8 +1,5 @@
 package de.fh_dortmund.kosys.hear_my_song.ejb;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -16,6 +13,9 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import de.fh_dortmund.kosys.hear_my_song.ejb.models.Song;
 
 /**
@@ -28,14 +28,13 @@ public class TimerServiceBean {
 
 	@EJB
 	RoomManagementLocal roomManagement;
-	
+
 	@Resource
 	TimerService timerService;
 
-	Map<Timer, Song> timerMap;
-	
-	
-	@Inject	
+	BiMap<Timer, Song> timerMap;
+
+	@Inject
 	private transient Logger logger;
 
 	/**
@@ -50,11 +49,12 @@ public class TimerServiceBean {
 	 */
 	@PostConstruct
 	private void init() {
-		timerMap = new HashMap<>();
+		timerMap = HashBiMap.create();
 	}
 
 	/**
 	 * Timer for Playbacktime
+	 * 
 	 * @param song
 	 */
 	public void setTimer(Song song) {
@@ -62,8 +62,13 @@ public class TimerServiceBean {
 		timerMap.put(timer, song);
 	}
 
+	public long getActualPlayback(Song song) {
+		return song.getPlaybackTime() - timerMap.inverse().get(song).getTimeRemaining();
+	}
+
 	/**
 	 * End of playback reached
+	 * 
 	 * @param timer
 	 */
 	@Timeout
